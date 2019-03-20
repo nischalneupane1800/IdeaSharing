@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<main class="container pt-5">
+
+
+	<section class="col-12">
+		<div class="row">
+			
+			
+			<header class="mr-auto">
+				<h1>{{ idea.title }}</h1>
+				<small>Published: {{ idea.created }} | User: {{ idea.user }}</small>
+			</header>
+			<div class="ml-auto">
+				<span data-value="U" data-action="vote"><i class="fa fa-thumbs-up fa-2x" style="color: {% if vote == 'U' %}blue{% else %}grey{% endif %}"></i></span>
+<span data-value="D" data-action="vote"><i class="fa fa-thumbs-down fa-2x" style="color: {% if vote == 'D' %}red{% else %}grey{% endif %}"></i></span>
+			</div>
+		</div>	
+		
+		<figure>
+			<img src="/media/{{ idea.image }}" class="img img-fluid">
+
+		</figure>
+		<h3>Description</h3>
+		<article class="pt-3"> {{ idea.description }}</article>
+
+	</section>
+	<div>
+		
+
+		<header>
+			<br>
+			<h3>Comments</h3>
+			
+		</header>
+		{% for comment in comments %}
+		<section class="card card-body" style="background-color:aqua">
+			<div>
+
+				
+				<small>{{ comment.created }} | User: {{ comment.user }}</small>
+			</div>
+			<article>{{comment.comment}}</article>
+
+		</section>
+		{% endfor %}
+
+	</div>
+
+	<form action="{% url 'ideas:comment' %}" method="POST" class="pt-5">
+		{% csrf_token %}
+		<label>Add Your Comment</label>
+		<fieldset class="form-group" >
+			{{ comment_form.comment }}
+		</fieldset>
+		{{ comment_form.user }} {{ comment_form.idea }}
+		<input type="submit" value="comment" class="btn btn-primary">
+	</form>
+</main>
+<script>
+
+
+</script>
+
+{% endblock %}
